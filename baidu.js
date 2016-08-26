@@ -1,11 +1,10 @@
 var casper = require('casper').create({
     pageSettings: {
-        loadImages: false,
-        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53'
+        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
     },
     viewportSize: {
         width: 320,
-        height: 560
+        height: 568
     },
     waitTimeout: 8000,
     verbose: true,
@@ -28,10 +27,11 @@ casper.thenOpen('http://www.baidu.com', function() {
 
 casper.waitForSelector('form#login-formWrapper', function() {
     console.log('open login page');
+    casper.captureSelector('2.png', 'html');
 });
 
 casper.then(function() {
-    casper.captureSelector('2.png', 'html');
+
 
     // this.fill('form#login-formWrapper', {
     //     username: 'jymsy'
@@ -43,15 +43,17 @@ casper.then(function() {
     this.sendKeys('#login-username', 'jymsy', {
         keepFocus: true
     });
+    this.wait(1000);
     // this.click('#login-password');
     this.sendKeys('#login-password', "jym7717810483", {
         keepFocus: true
     });
 
+    require('utils').dump(this.getElementInfo('#login-userlist'));
     this.wait(3000);
     require('utils').dump(this.getElementInfo('#login-submit'));
     // 10.截取填写登录表单后的样子
-    casper.captureSelector('3.png', 'html');
+    // casper.captureSelector('3.png', 'html');
 
     // 11.点击登录按钮
     // this.click('#login-submit');
